@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{category_code}-{category_name}",
+ "creation": "2026-02-07 11:11:42.613388",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "category_code",
+  "category_name",
+  "group",
+  "description",
+  "is_required"
+ ],
+ "fields": [
+  {
+   "fieldname": "category_code",
+   "fieldtype": "Data",
+   "label": "Category Code"
+  },
+  {
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "label": "Category Name"
+  },
+  {
+   "fieldname": "group",
+   "fieldtype": "Select",
+   "label": "Group",
+   "options": "\nIncome\nExpenses\nBank\nCIS\nPayroll\nSource Documents\nSales\nPurchases\nPurchases \u2013 Expenses\nDirectors Loan\nFixed Assets\nFinal & Submitted\nReports"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_required",
+   "fieldtype": "Check",
+   "label": "is required?"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-07 11:27:15.142087",
+ "modified_by": "Administrator",
+ "module": "Habesha Tax",
+ "name": "Transaction Category",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "category_name"
+}

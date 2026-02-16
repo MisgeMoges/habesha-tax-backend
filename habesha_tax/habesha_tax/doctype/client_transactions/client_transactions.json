@@ -1,0 +1,178 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{client}-{YYYY}-{MM}-{DD}-{#####}",
+ "creation": "2026-02-07 11:29:21.313128",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "client_information_section",
+  "client",
+  "full_name",
+  "phone",
+  "email",
+  "column_break_dkyl",
+  "client_type",
+  "business_type",
+  "status",
+  "section_break_abfl",
+  "posting_date",
+  "amount",
+  "column_break_ljkg",
+  "source",
+  "section_break_rjqe",
+  "category",
+  "category_name",
+  "transaction_type",
+  "note",
+  "document_attachments_section",
+  "main_file",
+  "multiple_attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "client_information_section",
+   "fieldtype": "Section Break",
+   "label": "Client Information"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Client",
+   "options": "Client"
+  },
+  {
+   "fetch_from": "client.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name"
+  },
+  {
+   "fetch_from": "client.phone_number",
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fetch_from": "client.user_id",
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "column_break_dkyl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "client.client_type",
+   "fieldname": "client_type",
+   "fieldtype": "Data",
+   "label": "Client Type"
+  },
+  {
+   "fetch_from": "client.business_type",
+   "fieldname": "business_type",
+   "fieldtype": "Data",
+   "label": "Business Type"
+  },
+  {
+   "fieldname": "section_break_rjqe",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "transaction_type",
+   "fieldtype": "Select",
+   "label": "Transaction Type",
+   "options": "\nIncome\nExpense"
+  },
+  {
+   "fieldname": "document_attachments_section",
+   "fieldtype": "Section Break",
+   "label": "Document Attachments"
+  },
+  {
+   "fieldname": "main_file",
+   "fieldtype": "Attach",
+   "label": "Main File "
+  },
+  {
+   "fieldname": "multiple_attachment",
+   "fieldtype": "Table",
+   "label": "Multiple Attachment",
+   "options": "Transaction Attachment"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nDraft\nSubmitted\nReviewed\nApproved"
+  },
+  {
+   "fieldname": "section_break_abfl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_ljkg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "Mobile\nWeb"
+  },
+  {
+   "fetch_from": "category.category_name",
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "label": "Category Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-02-14 12:09:46.266546",
+ "modified_by": "Administrator",
+ "module": "Habesha Tax",
+ "name": "Client Transactions",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
