@@ -72,12 +72,16 @@ def register_client_user(user_data, client_data):
             "phone_number": user_data.get("phone_number", ""),
             "address_line_1": client_data.get("address_line_1"),
             "address_line_2": client_data.get("address_line_2", ""),
+            "postal_code": client_data.get("postal_code", ""),
             "city": client_data.get("city"),
             "state": client_data.get("state"),
             "tax_id": client_data.get("tin_number"),
             "tax_category": client_data.get("tax_category"),
             "business_type": client_data.get("business_type"),
-            "business_status": client_data.get("status")
+            "business_status": client_data.get("status"),
+            "company_name": client_data.get("company_name", ""),
+            "company_registration_number": client_data.get("company_registration_number", ""),
+            "vat_number": client_data.get("vat_number", "")
         })
         
         client.insert(ignore_permissions=True)

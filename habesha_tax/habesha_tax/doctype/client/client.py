@@ -17,7 +17,7 @@ def get_clients():
 	try:
 		clients = frappe.get_all(
 			"Client",
-			filters={"status": "Active", "user_id": "misge@gmail.com"},  
+			filters={"status": "Active", "user_id": user},  
 			fields=["name"],
 			
 		)

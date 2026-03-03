@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-02-24 09:27:27.654404",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee_name",
+  "position",
+  "payroll_period",
+  "posting_date",
+  "hourly_rate",
+  "worked_hours",
+  "total_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "position",
+   "fieldtype": "Data",
+   "label": "Position"
+  },
+  {
+   "fieldname": "hourly_rate",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Salary(Hourly Rate)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "worked_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Worked Hours",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "precision": "2"
+  },
+  {
+   "fieldname": "payroll_period",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Payroll Period",
+   "options": "Client Payroll Period"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-02-24 10:10:12.978682",
+ "modified_by": "Administrator",
+ "module": "Habesha Tax",
+ "name": "Client Employee Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

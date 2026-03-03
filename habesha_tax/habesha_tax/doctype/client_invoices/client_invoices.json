@@ -1,0 +1,221 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "INVOICE-.#####",
+ "creation": "2026-03-02 17:31:28.069842",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "client_information_section",
+  "client",
+  "full_name",
+  "phone",
+  "email",
+  "column_break_jezj",
+  "company_name",
+  "company_registration_number",
+  "vat_number",
+  "address",
+  "bill_to_section",
+  "to_company_name",
+  "to_email",
+  "to_phone",
+  "to_address",
+  "invoice_date_section",
+  "invoice_date",
+  "services_details_section",
+  "service_details",
+  "bank_information_section",
+  "bank_name",
+  "account_name",
+  "account_number",
+  "sort_code",
+  "column_break_qhpj",
+  "payment_method",
+  "payment_email"
+ ],
+ "fields": [
+  {
+   "fieldname": "client_information_section",
+   "fieldtype": "Section Break",
+   "label": "Client Information"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Client",
+   "options": "Client",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "client.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Full Name"
+  },
+  {
+   "fetch_from": "client.phone_number",
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fetch_from": "client.email",
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fetch_from": "client.company_name",
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "company_registration_number",
+   "fieldtype": "Data",
+   "label": "Company Registration Number"
+  },
+  {
+   "fetch_from": "client.vat_number",
+   "fieldname": "vat_number",
+   "fieldtype": "Data",
+   "label": "VAT Number"
+  },
+  {
+   "fieldname": "column_break_jezj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bill_to_section",
+   "fieldtype": "Section Break",
+   "label": "Bill To"
+  },
+  {
+   "fieldname": "to_company_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Company Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "to_phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_address",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Address",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "client.address_line_1",
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "invoice_date_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Date & Number"
+  },
+  {
+   "fieldname": "invoice_date",
+   "fieldtype": "Table",
+   "label": "Invoice Date & Number",
+   "options": "Client Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "services_details_section",
+   "fieldtype": "Section Break",
+   "label": "Services Details"
+  },
+  {
+   "fieldname": "bank_information_section",
+   "fieldtype": "Section Break",
+   "label": "Bank Information"
+  },
+  {
+   "fieldname": "bank_name",
+   "fieldtype": "Data",
+   "label": "Bank Name"
+  },
+  {
+   "fieldname": "account_name",
+   "fieldtype": "Data",
+   "label": "Account Name"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number"
+  },
+  {
+   "fieldname": "sort_code",
+   "fieldtype": "Data",
+   "label": "Sort Code"
+  },
+  {
+   "fieldname": "payment_method",
+   "fieldtype": "Data",
+   "label": "Payment Method"
+  },
+  {
+   "fieldname": "payment_email",
+   "fieldtype": "Data",
+   "label": "Payment Email"
+  },
+  {
+   "fieldname": "column_break_qhpj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "service_details",
+   "fieldtype": "Table",
+   "label": "Services Details",
+   "options": "Client Service Details",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-02 20:13:57.066522",
+ "modified_by": "Administrator",
+ "module": "Habesha Tax",
+ "name": "Client Invoices",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

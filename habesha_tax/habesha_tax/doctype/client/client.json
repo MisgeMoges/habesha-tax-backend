@@ -11,7 +11,10 @@
   "middle_name",
   "last_name",
   "full_name",
+  "company_name",
+  "company_registration_number",
   "column_break_xrjz",
+  "client_code",
   "client_type",
   "business_type",
   "status",
@@ -37,7 +40,9 @@
   "postal_code",
   "tax_category_section",
   "tax_id",
-  "tax_category"
+  "tax_category",
+  "column_break_mpti",
+  "vat_number"
  ],
  "fields": [
   {
@@ -48,7 +53,8 @@
   {
    "fieldname": "first_name",
    "fieldtype": "Data",
-   "label": "First Name"
+   "label": "First Name",
+   "reqd": 1
   },
   {
    "fieldname": "middle_name",
@@ -58,7 +64,8 @@
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
-   "label": "Last Name"
+   "label": "Last Name",
+   "reqd": 1
   },
   {
    "fieldname": "full_name",
@@ -78,7 +85,8 @@
   {
    "fieldname": "phone_number",
    "fieldtype": "Data",
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "reqd": 1
   },
   {
    "fieldname": "status",
@@ -95,7 +103,8 @@
    "fieldname": "user_id",
    "fieldtype": "Link",
    "label": "User ID",
-   "options": "User"
+   "options": "User",
+   "reqd": 1
   },
   {
    "fieldname": "tax_id",
@@ -111,7 +120,8 @@
   {
    "fieldname": "address_line_1",
    "fieldtype": "Data",
-   "label": "Address Line 1"
+   "label": "Address Line 1",
+   "reqd": 1
   },
   {
    "fieldname": "address_line_2",
@@ -121,18 +131,21 @@
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City/Town"
+   "label": "City/Town",
+   "reqd": 1
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State/Province"
+   "label": "State/Province",
+   "reqd": 1
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
    "label": "Country",
-   "options": "Country"
+   "options": "Country",
+   "reqd": 1
   },
   {
    "fieldname": "postal_code",
@@ -153,7 +166,8 @@
   {
    "fieldname": "email",
    "fieldtype": "Data",
-   "label": "Email"
+   "label": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_ymvi",
@@ -208,15 +222,51 @@
    "fieldtype": "Select",
    "label": "Business Status",
    "options": "Active\nInactive\nPending"
+  },
+  {
+   "bold": 1,
+   "fieldname": "client_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Client Code"
+  },
+  {
+   "fieldname": "column_break_mpti",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vat_number",
+   "fieldtype": "Data",
+   "label": "VAT Number"
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name"
+  },
+  {
+   "fieldname": "company_registration_number",
+   "fieldtype": "Data",
+   "label": "Company Registration Number"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-02-10 03:58:41.185438",
+ "links": [
+  {
+   "link_doctype": "Client Transactions",
+   "link_fieldname": "client"
+  },
+  {
+   "link_doctype": "Client Invoices",
+   "link_fieldname": "client"
+  }
+ ],
+ "modified": "2026-03-02 18:18:29.991053",
  "modified_by": "Administrator",
  "module": "Habesha Tax",
  "name": "Client",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
@@ -232,6 +282,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "show_name_in_global_search": 1,
  "sort_field": "creation",
  "sort_order": "DESC",
