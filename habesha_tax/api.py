@@ -80,6 +80,7 @@ def register_client_user(user_data, client_data):
             "business_type": client_data.get("business_type"),
             "business_status": client_data.get("status"),
             "company_name": client_data.get("company_name", ""),
+            "company_logo": client_data.get("company_logo", ""),
             "company_registration_number": client_data.get("company_registration_number", ""),
             "vat_number": client_data.get("vat_number", "")
         })

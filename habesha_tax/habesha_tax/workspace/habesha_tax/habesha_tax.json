@@ -1,0 +1,55 @@
+{
+ "app": "habesha_tax",
+ "charts": [],
+ "content": "[]",
+ "creation": "2026-03-09 14:48:52.291258",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "icon": "airplay",
+ "idx": 1,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Habesha Tax",
+ "link_to": "Client",
+ "link_type": "DocType",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Clients",
+   "link_count": 0,
+   "link_to": "Client",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-11 14:57:52.434640",
+ "modified_by": "Administrator",
+ "module": "Habesha Tax",
+ "name": "Habesha Tax",
+ "number_cards": [
+  {
+   "label": "Clients",
+   "number_card_name": "Clients"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "Habesha Tax",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 50.0,
+ "shortcuts": [
+  {
+   "doc_view": "List",
+   "label": "Client",
+   "link_to": "Client",
+   "type": "DocType"
+  }
+ ],
+ "title": "Habesha Tax",
+ "type": "Workspace"
+}

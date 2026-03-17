@@ -1,0 +1,39 @@
+.chat-container{
+    display:flex;
+    height:100%;
+}
+
+.chat-users{
+    width:300px;
+    border-right:1px solid #eee;
+    overflow-y:auto;
+}
+
+.chat-area{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+#messages{
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+}
+
+.message-left{
+    background:#f1f1f1;
+    padding:10px 14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    max-width:60%;
+}
+
+.message-right{
+    background:#DCF8C6;
+    padding:10px 14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    max-width:60%;
+    margin-left:auto;
+}

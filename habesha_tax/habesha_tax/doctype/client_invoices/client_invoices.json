@@ -13,6 +13,7 @@
   "email",
   "column_break_jezj",
   "company_name",
+  "company_logo",
   "company_registration_number",
   "vat_number",
   "address",
@@ -188,12 +189,18 @@
    "label": "Services Details",
    "options": "Client Service Details",
    "reqd": 1
+  },
+  {
+   "fetch_from": "client.company_logo",
+   "fieldname": "company_logo",
+   "fieldtype": "Attach",
+   "label": "Company Logo"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-02 20:13:57.066522",
+ "modified": "2026-03-09 10:30:49.434055",
  "modified_by": "Administrator",
  "module": "Habesha Tax",
  "name": "Client Invoices",
