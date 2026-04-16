@@ -1,6 +1,25 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import now_datetime
+import time
+
+from zoneinfo import ZoneInfo
+from frappe.utils import get_datetime
+
+def _as_iso_with_offset(value):
+    tz_name = frappe.get_system_settings("time_zone") or "UTC"
+    site_tz = ZoneInfo(tz_name)
+
+    dt = get_datetime(value)
+    if not dt:
+        return None
+
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=site_tz)
+    else:
+        dt = dt.astimezone(site_tz)
+
+    return dt.isoformat(timespec="microseconds")
 
 
 class ChatMessage(Document):
@@ -15,6 +34,16 @@ class ChatMessage(Document):
         if not self.timestamp:
             self.timestamp = now_datetime()
 
+    def after_insert(self):
+        frappe.db.set_value(
+            self.doctype,
+            self.name,
+            {
+                "creation_iso": _as_iso_with_offset(self.creation),
+              
+            },
+            update_modified=False,
+        )
     # def validate(self):
     #     if not self.sender:
     #         frappe.throw("Sender is required.")
@@ -92,31 +121,75 @@ def send_message(receiver, message, sender=None):
 
 
 # GET MESSAGES
-@frappe.whitelist()
-def get_messages(user):
+# @frappe.whitelist()
+# def get_messages(user):
 
+#     current_user = frappe.session.user
+
+#     conv = frappe.get_all(
+#         "Conversation",
+#         filters=[
+#             ["sender", "in", [current_user, user]],
+#             ["receiver", "in", [current_user, user]]
+#         ],
+#         limit=1
+#     )
+
+#     if not conv:
+#         return []
+
+#     return frappe.get_all(
+#         "Chat Message",
+#         filters={"conversation": conv[0].name},
+#         fields=["sender", "receiver", "message", "timestamp"],
+#         order_by="timestamp asc"
+#     )
+
+
+@frappe.whitelist()
+def get_messages(user, include_iso=0):
     current_user = frappe.session.user
 
     conv = frappe.get_all(
         "Conversation",
         filters=[
             ["sender", "in", [current_user, user]],
-            ["receiver", "in", [current_user, user]]
+            ["receiver", "in", [current_user, user]],
         ],
-        limit=1
+        limit=1,
     )
 
     if not conv:
         return []
 
-    return frappe.get_all(
+    # Keep original fields/ordering
+    messages = frappe.get_all(
         "Chat Message",
         filters={"conversation": conv[0].name},
         fields=["sender", "receiver", "message", "timestamp"],
-        order_by="timestamp asc"
+        order_by="timestamp asc",
     )
 
+    # Backward-compatible: only add offset field when requested
+    if str(include_iso) not in {"1", "true", "True"}:
+        return messages
 
+    tz_name = frappe.db.get_single_value("System Settings", "time_zone") or "UTC"
+    site_tz = ZoneInfo(tz_name)
+
+    for m in messages:
+        dt = get_datetime(m.get("timestamp"))
+        if not dt:
+            continue
+
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=site_tz)
+        else:
+            dt = dt.astimezone(site_tz)
+
+        m["timestamp_iso"] = dt.isoformat(timespec="microseconds")
+
+    return messages
 # GET CHAT USERS
 @frappe.whitelist()
 def get_chat_users():
@@ -167,14 +240,39 @@ def mark_as_read(user):
     Mark all messages from a specific sender to current user as read
     """
 
+    retries = 3
+
+    for attempt in range(retries):
+        try:
+            frappe.db.sql(
+                """
+                UPDATE `tabChat Message`
+                SET is_read = 1,
+                    read_at = %s
+                WHERE sender = %s
+                AND receiver = %s
+                AND is_read = 0
+                """,
+                (frappe.utils.now(), user, frappe.session.user),
+            )
+            frappe.db.commit()
+            break
+        except frappe.QueryDeadlockError:
+            frappe.db.rollback()
+            if attempt == retries - 1:
+                return {"status": "success"}
+            time.sleep(0.1 * (attempt + 1))
+
+    return {"status": "success"}
+
+@frappe.whitelist()
+def mark_messages_as_read(sender: str, receiver: str):
     frappe.db.sql("""
         UPDATE `tabChat Message`
         SET is_read = 1
         WHERE sender = %s
-        AND receiver = %s
-        AND is_read = 0
-    """, (user, frappe.session.user))
-
+          AND receiver = %s
+          AND IFNULL(is_read, 0) = 0
+    """, (sender, receiver))
     frappe.db.commit()
-
-    return {"status": "success"}
+    return {"ok": True}

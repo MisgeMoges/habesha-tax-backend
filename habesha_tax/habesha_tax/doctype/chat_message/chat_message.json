@@ -12,7 +12,8 @@
   "timestamp",
   "is_read",
   "attachment",
-  "read_at"
+  "read_at",
+  "creation_iso"
  ],
  "fields": [
   {
@@ -58,12 +59,17 @@
    "fieldtype": "Link",
    "label": "Conversation",
    "options": "Conversation"
+  },
+  {
+   "fieldname": "creation_iso",
+   "fieldtype": "Data",
+   "label": "Creation ISO"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-11 04:36:37.331620",
+ "modified": "2026-04-16 15:39:38.989619",
  "modified_by": "Administrator",
  "module": "Habesha Tax",
  "name": "Chat Message",
