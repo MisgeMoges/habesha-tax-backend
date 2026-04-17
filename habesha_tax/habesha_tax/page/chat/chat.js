@@ -319,79 +319,10 @@ frappe.pages['chat'].on_page_load = function(wrapper) {
         const request_id = ++load_users_request_id;
 
         const users_res = await frappe_call_async({
-            method: "frappe.client.get_list",
-            args: {
-                doctype: "User",
-                fields: ["email", "first_name", "last_name", "user_image"],
-                order_by: "email asc",
-                limit_page_length: 500
-            }
+            method: "habesha_tax.habesha_tax.doctype.chat_message.chat_message.get_chat_sidebar_users"
         });
 
-        let users = (users_res.message || []).filter(user => {
-            return user.email !== "admin@example.com"
-                && user.email !== "guest@example.com"
-                && user.email !== frappe.session.user;
-        });
-
-        let list_items = await Promise.all(users.map(async (user) => {
-            const role = await frappe_call_async({
-                method: "frappe.client.get_list",
-                args: {
-                    doctype: "Has Role",
-                    filters: { parent: user.email, role: "Client" },
-                    fields: ["name"],
-                    limit: 1
-                }
-            });
-
-            if(!(role.message || []).length) return null;
-
-            const [last, unread_res] = await Promise.all([
-                frappe_call_async({
-                    method: "frappe.client.get_list",
-                    args: {
-                        doctype: "Chat Message",
-                        fields: ["message", "timestamp"],
-                        filters: [
-                            ["sender", "in", [user.email, frappe.session.user]],
-                            ["receiver", "in", [user.email, frappe.session.user]]
-                        ],
-                        order_by: "timestamp desc",
-                        limit: 1
-                    }
-                }),
-                frappe_call_async({
-                    method: "frappe.client.get_count",
-                    args: {
-                        doctype: "Chat Message",
-                        filters: {
-                            sender: user.email,
-                            receiver: frappe.session.user,
-                            is_read: 0
-                        }
-                    }
-                })
-            ]);
-
-            let last_msg = "";
-            let last_time = "";
-            let last_ts = "";
-            let last_ts_value = 0;
-            let last_messages = last.message || [];
-
-            if(last_messages.length){
-                last_msg = last_messages[0].message || "";
-                if(last_msg.length > 15){
-                    last_msg = last_msg.substring(0, 15) + "...";
-                }
-
-                last_ts = last_messages[0].timestamp;
-                last_time = format_sidebar_time(last_ts);
-                last_ts_value = parse_ts(last_ts);
-            }
-
-            let unread_count = unread_res.message || 0;
+        let list_items = (users_res.message || []).map((user) => {
             let first_name = user.first_name || user.email;
             let last_name = user.last_name || "";
             let full_name = `${first_name} ${last_name}`.trim();
@@ -401,13 +332,21 @@ frappe.pages['chat'].on_page_load = function(wrapper) {
                 ? `<img src="${esc_attr(user.user_image)}">`
                 : `<span>${initials}</span>`;
 
+            let last_msg = user.last_message || "";
+            if(last_msg.length > 15){
+                last_msg = last_msg.substring(0, 15) + "...";
+            }
+
+            let last_time = user.last_timestamp ? format_sidebar_time(user.last_timestamp) : "";
+            let unread_count = Number(user.unread_count || 0);
+
             let unread_badge = "";
             if(unread_count > 0){
                 unread_badge = `<div class="unread-badge">${unread_count > 99 ? "99+" : unread_count}</div>`;
             }
 
             return {
-                sort_key: last_ts_value,
+                sort_key: parse_ts(user.last_timestamp),
                 email: user.email,
                 html: `
                     <div class="chat-user"
@@ -429,7 +368,7 @@ frappe.pages['chat'].on_page_load = function(wrapper) {
                     </div>
                 `
             };
-        }));
+        });
 
         if(request_id !== load_users_request_id) return;
 

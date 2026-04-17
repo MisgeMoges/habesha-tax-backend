@@ -121,75 +121,31 @@ def send_message(receiver, message, sender=None):
 
 
 # GET MESSAGES
-# @frappe.whitelist()
-# def get_messages(user):
-
-#     current_user = frappe.session.user
-
-#     conv = frappe.get_all(
-#         "Conversation",
-#         filters=[
-#             ["sender", "in", [current_user, user]],
-#             ["receiver", "in", [current_user, user]]
-#         ],
-#         limit=1
-#     )
-
-#     if not conv:
-#         return []
-
-#     return frappe.get_all(
-#         "Chat Message",
-#         filters={"conversation": conv[0].name},
-#         fields=["sender", "receiver", "message", "timestamp"],
-#         order_by="timestamp asc"
-#     )
-
-
 @frappe.whitelist()
-def get_messages(user, include_iso=0):
+def get_messages(user):
+
     current_user = frappe.session.user
 
     conv = frappe.get_all(
         "Conversation",
         filters=[
             ["sender", "in", [current_user, user]],
-            ["receiver", "in", [current_user, user]],
+            ["receiver", "in", [current_user, user]]
         ],
-        limit=1,
+        limit=1
     )
 
     if not conv:
         return []
 
-    # Keep original fields/ordering
-    messages = frappe.get_all(
+    return frappe.get_all(
         "Chat Message",
         filters={"conversation": conv[0].name},
         fields=["sender", "receiver", "message", "timestamp"],
-        order_by="timestamp asc",
+        order_by="timestamp asc"
     )
 
-    # Backward-compatible: only add offset field when requested
-    if str(include_iso) not in {"1", "true", "True"}:
-        return messages
 
-    tz_name = frappe.db.get_single_value("System Settings", "time_zone") or "UTC"
-    site_tz = ZoneInfo(tz_name)
-
-    for m in messages:
-        dt = get_datetime(m.get("timestamp"))
-        if not dt:
-            continue
-
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=site_tz)
-        else:
-            dt = dt.astimezone(site_tz)
-
-        m["timestamp_iso"] = dt.isoformat(timespec="microseconds")
-
-    return messages
 # GET CHAT USERS
 @frappe.whitelist()
 def get_chat_users():
@@ -223,6 +179,63 @@ def get_chat_users():
     print("chat users:", list(users))
 
     return list(users)
+
+
+@frappe.whitelist()
+def get_chat_sidebar_users():
+    current_user = frappe.session.user
+
+    rows = frappe.db.sql(
+        """
+        SELECT
+            u.name AS email,
+            u.first_name,
+            u.last_name,
+            u.user_image,
+            (
+                SELECT m.message
+                FROM `tabChat Message` m
+                WHERE (
+                    (m.sender = u.name AND m.receiver = %(current_user)s)
+                    OR (m.sender = %(current_user)s AND m.receiver = u.name)
+                )
+                ORDER BY m.timestamp DESC, m.creation DESC
+                LIMIT 1
+            ) AS last_message,
+            (
+                SELECT m.timestamp
+                FROM `tabChat Message` m
+                WHERE (
+                    (m.sender = u.name AND m.receiver = %(current_user)s)
+                    OR (m.sender = %(current_user)s AND m.receiver = u.name)
+                )
+                ORDER BY m.timestamp DESC, m.creation DESC
+                LIMIT 1
+            ) AS last_timestamp,
+            (
+                SELECT COUNT(1)
+                FROM `tabChat Message` m
+                WHERE m.sender = u.name
+                  AND m.receiver = %(current_user)s
+                  AND IFNULL(m.is_read, 0) = 0
+            ) AS unread_count
+        FROM `tabUser` u
+        INNER JOIN `tabHas Role` hr
+            ON hr.parent = u.name
+           AND hr.role = 'Client'
+        WHERE u.enabled = 1
+          AND u.name NOT IN ('Administrator', 'Guest', %(current_user)s)
+        GROUP BY u.name, u.first_name, u.last_name, u.user_image
+        ORDER BY last_timestamp DESC, u.name ASC
+        """,
+        {"current_user": current_user},
+        as_dict=True,
+    )
+
+    for row in rows:
+        row["unread_count"] = int(row.get("unread_count") or 0)
+
+    return rows
 
 
 @frappe.whitelist()

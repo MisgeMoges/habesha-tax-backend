@@ -4,13 +4,20 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2026-03-11 06:30:25.373649",
+ "modified": "2026-04-16 16:58:48.852285",
  "modified_by": "Administrator",
  "module": "Habesha Tax",
  "name": "chat",
  "owner": "Administrator",
  "page_name": "chat",
- "roles": [],
+ "roles": [
+  {
+   "role": "Administrator"
+  },
+  {
+   "role": "All"
+  }
+ ],
  "script": null,
  "standard": "Yes",
  "style": null,
