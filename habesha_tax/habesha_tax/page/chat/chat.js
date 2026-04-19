@@ -478,10 +478,10 @@ frappe.pages['chat'].on_page_load = function(wrapper) {
         if(e.which == 13) $("#send-btn").trigger("click");
     });
 
-    // setInterval(function(){
-    //     if(current_user_chat){ load_messages(); }
-    //     load_users();
-    // }, 3000);
+    setInterval(function(){
+        if(current_user_chat){ load_messages(); }
+        load_users();
+    }, 3000);
     function scroll_bottom(){
         let m = $("#messages");
         if(m.length) m.scrollTop(m[0].scrollHeight);
