@@ -74,7 +74,7 @@ def register_client_user(user_data, client_data):
             "address_line_2": client_data.get("address_line_2", ""),
             "postal_code": client_data.get("postal_code", ""),
             "city": client_data.get("city"),
-            "state": client_data.get("state"),
+            "state": client_data.get("state", ""),
             "tax_id": client_data.get("tin_number"),
             "tax_category": client_data.get("tax_category"),
             "business_type": client_data.get("business_type"),
